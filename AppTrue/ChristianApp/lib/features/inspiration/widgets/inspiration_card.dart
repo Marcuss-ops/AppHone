@@ -4,6 +4,7 @@ import 'package:glossy/glossy.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../core/config/app_copy.dart';
 import '../../../brand_config.dart';
+import '../../../shared/widgets/app_ui_components.dart';
 import '../models/inspiration.dart';
 
 class InspirationCard extends StatelessWidget {
