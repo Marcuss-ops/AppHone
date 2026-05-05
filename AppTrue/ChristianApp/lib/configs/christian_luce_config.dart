@@ -85,6 +85,5 @@ class ChristianLuceConfig implements AppConfig {
     NavigationDestinationConfig(icon: PhosphorIcons.house(), label: 'Home', page: const HomeTab()),
     NavigationDestinationConfig(icon: PhosphorIcons.playCircle(), label: 'Player', page: const PlayerTab()),
     NavigationDestinationConfig(icon: PhosphorIcons.usersThree(), label: 'Community', page: const CommunityScreen()),
-    NavigationDestinationConfig(icon: PhosphorIcons.notebook(), label: 'Diario', page: const DiarioTab()),
   ];
 }

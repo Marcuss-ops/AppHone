@@ -30,9 +30,6 @@ class HomeTab extends ConsumerWidget {
             _buildGuidedMomentSection(config.guidedMoment!, config),
           ],
 
-          const SizedBox(height: 32),
-          _buildMoodSection(config),
-
           if (config.hasCompletionCalendar) ...[
             const SizedBox(height: 24),
             _buildCompletionCalendar(ref, config),
