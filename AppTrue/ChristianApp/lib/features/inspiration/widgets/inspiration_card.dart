@@ -22,7 +22,7 @@ class InspirationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GlossyContainer(
       width: double.infinity,
-      height: 320,
+      height: 420,
       strengthX: 20,
       strengthY: 20,
       opacity: 0.1,

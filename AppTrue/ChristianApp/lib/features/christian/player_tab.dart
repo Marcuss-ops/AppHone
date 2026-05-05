@@ -117,7 +117,7 @@ class PlayerTab extends ConsumerWidget {
 
   Widget _recentItem(String t, String s, AppConfig config) {
     return AppGlassCard(
-      height: 80,
+      height: 95,
       child: Row(
         children: [
           Icon(PhosphorIcons.playCircle(), color: config.primaryAccent, size: 24),
