@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../core/config/app_config.dart';
 import '../core/theme/app_colors.dart';
+import 'christian_luce_copy.dart';
 
 // Import features
 import '../features/home/home_tab.dart'; 
@@ -14,17 +15,11 @@ class ChristianLuceConfig implements AppConfig {
   String get appName => 'Luce';
   
   @override
-  String get welcomeMessage => 'Buongiorno';
-
-  @override
   String get localeCode => 'it_IT';
 
   @override
-  String get journeySectionTitle => 'Il tuo cammino';
+  AppCopy get copy => ChristianLuceCopy();
 
-  @override
-  String get quickPracticesSectionTitle => 'Pratiche rapide';
-  
   @override
   Color get backgroundStart => const Color(0xFF0F0D0B);
   

@@ -11,6 +11,7 @@ import '../../shared/widgets/app_ui_components.dart';
 import '../inspiration/providers/inspiration_provider.dart';
 import '../inspiration/widgets/inspiration_card.dart';
 import '../inspiration/services/inspiration_sharing_service.dart';
+import '../gamification/providers/prayer_stats_provider.dart';
 
 class HomeTab extends ConsumerWidget {
   const HomeTab({super.key});
@@ -49,6 +50,67 @@ class HomeTab extends ConsumerWidget {
             const SizedBox(height: 32),
             _buildQuickPracticesSection(config),
           ],
+
+          const SizedBox(height: 32),
+          _buildWrappedTeaser(ref, config),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWrappedTeaser(WidgetRef ref, AppConfig config) {
+    final stats = ref.read(prayerStatsProvider.notifier).calculateWrapped();
+    if (stats.isEmpty) return const SizedBox.shrink();
+
+    return AppGlassCard(
+      opacity: 0.2,
+      borderRadius: 24,
+      borderColor: Colors.orange.withValues(alpha: 0.3),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                config.copy.homeWrappedTitle,
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.orange[300],
+                  letterSpacing: 1.2,
+                ),
+              ),
+              Icon(PhosphorIcons.shareNetwork(), color: Colors.orange[300], size: 20),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Hai dedicato ${stats['totalMinutes']} minuti alla tua anima nel ${stats['year']}.',
+            style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'La tua pratica preferita: ${stats['favoriteType']}',
+            style: GoogleFonts.inter(fontSize: 14, color: config.textSecondary),
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                // Future: Generate shareable "Spotify Wrapped" style image
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange.withValues(alpha: 0.2),
+                foregroundColor: Colors.orange[100],
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                elevation: 0,
+              ),
+              child: Text(config.copy.homeWrappedAction),
+            ),
+          ),
         ],
       ),
     );
@@ -182,7 +244,7 @@ class HomeTab extends ConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(config.welcomeMessage, 
+            Text(config.copy.homeGreeting, 
                 style: GoogleFonts.inter(fontSize: 34, fontWeight: FontWeight.w800)),
             const SizedBox(height: 4),
             Text(DateFormat('EEEE d MMMM', config.localeCode).format(DateTime.now()), 

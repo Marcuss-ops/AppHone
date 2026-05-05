@@ -1,20 +1,48 @@
 import 'package:flutter/material.dart';
 
-abstract class AppConfig {
-  static const bool useMockData = true; // Temporary static access to fix legacy code
-  static const bool enableGamification = false;
-  static const bool enableLearningPath = false;
-  static const bool enableAudioPlayer = false;
-  static const bool enableCommunitySupport = true;
-  static const List<dynamic> homeSections = [];
+/// Abstract Copy interface to allow each app configuration to define its own strings.
+abstract class AppCopy {
+  // General
+  String get errorGeneric;
+  String get buttonRetry;
+  String get buttonCancel;
 
-  String get appName;
-  String get welcomeMessage;
-  String get localeCode;
+  // Onboarding
+  String get onboardingTitle;
+  String get onboardingSubtitle;
+  String get onboardingButton;
+
+  // Home
+  String get homeGreeting;
+  String get homeSubtitle;
+  String get homeGuidedTitle;
+  String get homeGuidedSubtitle;
+  String get homeWrappedTitle;
+  String get homeWrappedAction;
+
+  // Community
+  String get communityTitle;
+  String get communitySubtitle;
+  String get communityRoomsTitle;
+  String get communityCreateRoomAction;
+  String get communityRecentIntentsTitle;
+  String get communityInputPlaceholder;
+  String get communityPostAction;
+  String get communitySupportAction;
+  String get communityLiveCountTemplate; // e.g. "{count} people praying"
+  String get communityPrayerTitle;
+  String get communityPrayerAction;
+
+  // Player
+  String get playerContinueWatching;
+}
+
+abstract class AppConfig {
+  static const bool useMockData = true;
   
-  // Section Titles
-  String get journeySectionTitle;
-  String get quickPracticesSectionTitle;
+  String get appName;
+  String get localeCode;
+  AppCopy get copy;
   
   // Theme & Colors
   Color get backgroundStart;
@@ -24,19 +52,13 @@ abstract class AppConfig {
   Color get textSecondary;
   Color get cardBorder;
   
-  // Feature flags / content sections
+  // Feature flags
   bool get hasCompletionCalendar;
   
-  // Config for the inspiration section
+  // Config sections
   InspirationSectionConfig? get inspirationSection;
-  
-  // Config for the featured section
   FeaturedSectionConfig? get featuredSection;
-  
-  // Config for quick practices
   List<QuickPracticeConfig> get quickPractices;
-
-  // Config for the guided moment (Luce/Moment)
   GuidedMomentConfig? get guidedMoment;
   
   // Navigation
@@ -112,19 +134,5 @@ class NavigationDestinationConfig {
     required this.icon,
     required this.label,
     required this.page,
-  });
-}
-
-enum HomeSectionType { category }
-
-class HomeSectionConfig {
-  final String id;
-  final String titleKey;
-  final HomeSectionType type;
-
-  const HomeSectionConfig({
-    required this.id,
-    required this.titleKey,
-    required this.type,
   });
 }
