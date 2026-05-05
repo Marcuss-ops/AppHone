@@ -30,6 +30,9 @@ class HomeTab extends ConsumerWidget {
             _buildGuidedMomentSection(config.guidedMoment!, config),
           ],
 
+          const SizedBox(height: 32),
+          _buildMoodSection(config),
+
           if (config.hasCompletionCalendar) ...[
             const SizedBox(height: 24),
             _buildCompletionCalendar(ref, config),
@@ -51,6 +54,54 @@ class HomeTab extends ConsumerWidget {
           ],
         ],
       ),
+    );
+  }
+
+  Widget _buildMoodSection(AppConfig config) {
+    final moods = [
+      {'label': 'Ansioso', 'icon': PhosphorIcons.wind()},
+      {'label': 'Grato', 'icon': PhosphorIcons.sun()},
+      {'label': 'Stanco', 'icon': PhosphorIcons.moon()},
+      {'label': 'Smarrito', 'icon': PhosphorIcons.compass()},
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('COME TI SENTI OGGI?', 
+            style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 1.2, color: config.primaryAccent)),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 90,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: moods.length,
+            itemBuilder: (context, index) {
+              final mood = moods[index];
+              return Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.05),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white.withOpacity(0.1)),
+                      ),
+                      child: Icon(mood['icon'] as IconData, color: Colors.white, size: 24),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(mood['label'] as String, 
+                        style: GoogleFonts.inter(fontSize: 12, color: config.textSecondary)),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
