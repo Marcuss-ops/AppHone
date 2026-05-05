@@ -35,9 +35,26 @@ abstract class AppConfig {
   
   // Config for quick practices
   List<QuickPracticeConfig> get quickPractices;
+
+  // Config for the guided moment (Luce/Moment)
+  GuidedMomentConfig? get guidedMoment;
   
   // Navigation
   List<NavigationDestinationConfig> get navigationDestinations;
+}
+
+class GuidedMomentConfig {
+  final String title;
+  final String subtitle;
+  final String durationText;
+  final IconData icon;
+
+  GuidedMomentConfig({
+    required this.title,
+    required this.subtitle,
+    required this.durationText,
+    required this.icon,
+  });
 }
 
 class InspirationSectionConfig {

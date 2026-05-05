@@ -73,7 +73,45 @@ class CommunityScreen extends ConsumerWidget {
             color: Colors.white70,
           ),
         ),
+        const SizedBox(height: 16),
+        _buildLiveCounter(),
       ],
+    );
+  }
+
+  Widget _buildLiveCounter() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.green.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.green.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle,
+            ),
+          ).animate(onPlay: (controller) => controller.repeat())
+           .scale(begin: const Offset(1, 1), end: const Offset(1.5, 1.5), duration: 800.ms, curve: Curves.easeInOut)
+           .then()
+           .scale(begin: const Offset(1.5, 1.5), end: const Offset(1, 1), duration: 800.ms, curve: Curves.easeInOut),
+          const SizedBox(width: 8),
+          Text(
+            '12.432 persone stanno pregando ora',
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Colors.green[300],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

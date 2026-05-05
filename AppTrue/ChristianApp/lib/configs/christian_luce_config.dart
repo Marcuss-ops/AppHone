@@ -73,6 +73,14 @@ class ChristianLuceConfig implements AppConfig {
   ];
 
   @override
+  GuidedMomentConfig? get guidedMoment => GuidedMomentConfig(
+    title: 'Il tuo momento di Luce',
+    subtitle: 'Versetto • Riflessione • Preghiera',
+    durationText: '5 MIN',
+    icon: PhosphorIcons.sparkle(PhosphorIconsStyle.fill),
+  );
+
+  @override
   List<NavigationDestinationConfig> get navigationDestinations => [
     NavigationDestinationConfig(icon: PhosphorIcons.house(), label: 'Home', page: const HomeTab()),
     NavigationDestinationConfig(icon: PhosphorIcons.playCircle(), label: 'Player', page: const PlayerTab()),

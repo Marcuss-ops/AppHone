@@ -24,6 +24,12 @@ class HomeTab extends ConsumerWidget {
         padding: const EdgeInsets.fromLTRB(20, 24, 20, 100),
         children: [
           _buildHeader(ref, config),
+          
+          if (config.guidedMoment != null) ...[
+            const SizedBox(height: 24),
+            _buildGuidedMomentSection(config.guidedMoment!, config),
+          ],
+
           if (config.hasCompletionCalendar) ...[
             const SizedBox(height: 24),
             _buildCompletionCalendar(ref, config),
@@ -43,6 +49,78 @@ class HomeTab extends ConsumerWidget {
             const SizedBox(height: 32),
             _buildQuickPracticesSection(config),
           ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGuidedMomentSection(GuidedMomentConfig moment, AppConfig config) {
+    return AppGlassCard(
+      opacity: 0.15,
+      borderRadius: 32,
+      borderColor: config.primaryAccent.withValues(alpha: 0.3),
+      padding: const EdgeInsets.all(24),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(moment.icon, color: config.primaryAccent, size: 20),
+                    const SizedBox(width: 8),
+                    Text(
+                      moment.durationText,
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900,
+                        color: config.primaryAccent,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  moment.title,
+                  style: GoogleFonts.inter(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  moment.subtitle,
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    color: config.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Icon(
+              PhosphorIcons.play(PhosphorIconsStyle.fill),
+              color: Colors.black,
+              size: 32,
+            ),
+          ),
         ],
       ),
     );
