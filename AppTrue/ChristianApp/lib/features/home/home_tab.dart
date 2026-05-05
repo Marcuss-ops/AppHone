@@ -29,14 +29,14 @@ class HomeTab extends ConsumerWidget {
             _buildCompletionCalendar(ref, config),
           ],
           
-          if (config.inspirationSection != null) ...[
-            const SizedBox(height: 32),
-            _buildInspirationSection(config.inspirationSection!, config),
-          ],
-          
           if (config.featuredSection != null) ...[
             const SizedBox(height: 32),
             _buildFeaturedSection(config.featuredSection!, config),
+          ],
+          
+          if (config.inspirationSection != null) ...[
+            const SizedBox(height: 32),
+            _buildInspirationSection(config.inspirationSection!, config),
           ],
           
           if (config.quickPractices.isNotEmpty) ...[
