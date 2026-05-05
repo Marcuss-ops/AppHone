@@ -18,6 +18,9 @@ import '../../gamification/widgets/daily_quests_card.dart';
 import '../../gamification/widgets/leaderboard_card.dart';
 import '../widgets/learning_path/learning_path_view.dart';
 import '../widgets/category_section.dart';
+import '../../inspiration/providers/inspiration_provider.dart';
+import '../../inspiration/widgets/inspiration_card.dart';
+import '../../inspiration/services/inspiration_sharing_service.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -104,6 +107,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         style: AppDesignSystem.bodyLarge,
                       ),
                     ],
+                  ),
+                ),
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: AppDesignSystem.spacingLG)),
+
+              // Inspiration Card Section
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: AppDesignSystem.spacingMD),
+                sliver: SliverToBoxAdapter(
+                  child: ref.watch(dailyInspirationProvider).when(
+                    data: (inspiration) => InspirationCard(
+                      inspiration: inspiration,
+                      onShare: () {
+                        InspirationSharingService().shareInspiration(context, inspiration);
+                      },
+                      onPlayAudio: () {
+                        // Logic for audio player
+                      },
+                    ),
+                    loading: () => const Center(child: CircularProgressIndicator()),
+                    error: (e, st) => const SizedBox.shrink(),
                   ),
                 ),
               ),

@@ -60,4 +60,19 @@ class AppCopy {
   static const String streakFreezeLabel = 'Streak Freeze';
   static const String streakFreezeDescription = 'Protect your streak if you miss a day.';
   static const String purchaseButton = 'BUY';
+
+  // Community / Social Support
+  static const String communityTitle = 'Community Support';
+  static const String communityEmpty = 'Be the first to share an intention.';
+  static const String communityActionPost = 'Share Intention';
+  static const String communitySupportAction = 'Support';
+  static const String communitySupportFeedback = 'people supported this';
+  static const String communitySupportActive = 'Supported';
+  static const String communityInputPlaceholder = 'How can the community support you today?';
+
+  // Inspiration / Daily Verse
+  static const String inspirationTitle = 'Daily Inspiration';
+  static const String inspirationShareAction = 'Share with Grace';
+  static const String inspirationAudioPlay = 'Listen';
+  static const String inspirationSaveGallery = 'Save to Gallery';
 }

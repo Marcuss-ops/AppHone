@@ -10,6 +10,7 @@ import '../../features/content/screens/category_screen.dart';
 import '../../features/content/screens/course_screen.dart';
 import '../../features/content/screens/search_screen.dart';
 import '../../features/content/screens/library_screen.dart';
+import '../../features/community/screens/community_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../features/settings/screens/settings_screen.dart';
 import '../../features/payments/screens/paywall_screen.dart';
@@ -78,6 +79,15 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/library',
                 builder: (context, state) => const LibraryScreen(),
+              ),
+            ],
+          ),
+          // Community Branch
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/community',
+                builder: (context, state) => const CommunityScreen(),
               ),
             ],
           ),

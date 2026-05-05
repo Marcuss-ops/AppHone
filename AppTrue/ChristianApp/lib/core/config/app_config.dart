@@ -5,6 +5,7 @@ abstract class AppConfig {
   static const bool enableGamification = false;
   static const bool enableLearningPath = false;
   static const bool enableAudioPlayer = false;
+  static const bool enableCommunitySupport = true;
   static const List<dynamic> homeSections = [];
 
   String get appName;
