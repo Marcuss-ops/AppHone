@@ -27,6 +27,7 @@ class CommunityIntentCard extends StatelessWidget {
         borderRadius: 20,
         padding: const EdgeInsets.all(20),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(

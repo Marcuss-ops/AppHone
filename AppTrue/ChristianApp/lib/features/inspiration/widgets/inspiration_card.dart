@@ -41,6 +41,7 @@ class InspirationCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Row(
