@@ -22,19 +22,14 @@ class CommunityIntentCard extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: GlossyContainer(
-        width: double.infinity,
-        height: 260,
-        strengthX: 16,
-        strengthY: 16,
+      child: AppGlassCard(
         opacity: 0.08,
-        borderRadius: BorderRadius.circular(20),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+        borderRadius: 20,
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
                 children: [
                   CircleAvatar(
                     radius: 18,

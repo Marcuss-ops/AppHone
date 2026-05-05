@@ -20,17 +20,11 @@ class InspirationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlossyContainer(
-      width: double.infinity,
-      height: 420,
-      strengthX: 20,
-      strengthY: 20,
+    return AppGlassCard(
       opacity: 0.1,
-      borderRadius: BorderRadius.circular(24),
-      border: Border.all(
-        color: Colors.white.withValues(alpha: 0.1),
-        width: 1.5,
-      ),
+      borderRadius: 24,
+      borderColor: Colors.white.withValues(alpha: 0.1),
+      padding: EdgeInsets.zero,
       child: Stack(
         children: [
           // Decorative background elements

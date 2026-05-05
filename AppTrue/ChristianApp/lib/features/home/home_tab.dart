@@ -163,28 +163,32 @@ class HomeTab extends ConsumerWidget {
         Text(section.sectionTitle, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700)),
         const SizedBox(height: 16),
         AppGlassCard(
-          height: 200,
-          child: Stack(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Stack(
                 children: [
-                  AppPill(text: section.pillText),
-                  const Spacer(),
-                  Text(section.mainTitle,
-                      style: GoogleFonts.cormorantGaramond(fontSize: 28, fontWeight: FontWeight.bold, color: config.primaryAccent)),
-                  Text(section.subtitle,
-                      style: GoogleFonts.inter(fontSize: 14, color: config.textSecondary)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppPill(text: section.pillText),
+                      const SizedBox(height: 40),
+                      Text(section.mainTitle,
+                          style: GoogleFonts.cormorantGaramond(fontSize: 28, fontWeight: FontWeight.bold, color: config.primaryAccent)),
+                      Text(section.subtitle,
+                          style: GoogleFonts.inter(fontSize: 14, color: config.textSecondary)),
+                    ],
+                  ),
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(color: config.primaryAccent, shape: BoxShape.circle),
+                      child: Icon(section.actionIcon, size: 20, color: Colors.black),
+                    ),
+                  ),
                 ],
-              ),
-              Positioned(
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(color: config.primaryAccent, shape: BoxShape.circle),
-                  child: Icon(section.actionIcon, size: 20, color: Colors.black),
-                ),
               ),
             ],
           ),

@@ -5,16 +5,22 @@ import 'package:glossy/glossy.dart';
 
 class AppGlassCard extends StatelessWidget {
   final Widget child;
-  final double height;
+  final double? height;
   final double? width;
   final Color? borderColor;
+  final double opacity;
+  final double borderRadius;
+  final EdgeInsetsGeometry? padding;
 
   const AppGlassCard({
     super.key,
     required this.child,
-    this.height = 280,
+    this.height,
     this.width,
     this.borderColor,
+    this.opacity = 0.05,
+    this.borderRadius = 28,
+    this.padding,
   });
 
   @override
@@ -22,17 +28,26 @@ class AppGlassCard extends StatelessWidget {
     final theme = Theme.of(context);
     final effectiveBorderColor = borderColor ?? theme.colorScheme.primary.withOpacity(0.12);
 
-    return Container(
-      height: height,
-      width: width ?? double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: effectiveBorderColor),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(22),
-        child: child,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(borderRadius),
+      child: Container(
+        height: height,
+        width: width ?? double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(opacity),
+          borderRadius: BorderRadius.circular(borderRadius),
+          border: Border.all(color: effectiveBorderColor),
+        ),
+        child: BackdropFilter(
+          filter: ColorFilter.mode(
+            Colors.white.withOpacity(0.01),
+            BlendMode.overlay,
+          ),
+          child: Padding(
+            padding: padding ?? const EdgeInsets.all(22),
+            child: child,
+          ),
+        ),
       ),
     );
   }
