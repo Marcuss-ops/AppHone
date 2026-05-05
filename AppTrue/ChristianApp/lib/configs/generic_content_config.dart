@@ -4,6 +4,7 @@ import '../core/config/app_config.dart';
 
 // Import generic features
 import '../features/home/home_tab.dart'; 
+import '../features/community/screens/community_screen.dart';
 
 class GenericPlaceholder extends StatelessWidget {
   final String title;
@@ -77,6 +78,7 @@ class GenericContentConfig implements AppConfig {
   @override
   List<NavigationDestinationConfig> get navigationDestinations => [
     NavigationDestinationConfig(icon: PhosphorIcons.house(), label: 'Home', page: const HomeTab()),
+    NavigationDestinationConfig(icon: PhosphorIcons.usersThree(), label: 'Community', page: const CommunityScreen()),
     NavigationDestinationConfig(icon: PhosphorIcons.compass(), label: 'Discover', page: const GenericPlaceholder(title: 'Discover Tab')),
     NavigationDestinationConfig(icon: PhosphorIcons.user(), label: 'Profile', page: const GenericPlaceholder(title: 'Profile Tab')),
   ];

@@ -7,6 +7,7 @@ import '../core/theme/app_colors.dart';
 import '../features/home/home_tab.dart'; 
 import '../features/christian/player_tab.dart';
 import '../features/christian/diario_tab.dart';
+import '../features/community/screens/community_screen.dart';
 
 class ChristianLuceConfig implements AppConfig {
   @override
@@ -75,6 +76,7 @@ class ChristianLuceConfig implements AppConfig {
   List<NavigationDestinationConfig> get navigationDestinations => [
     NavigationDestinationConfig(icon: PhosphorIcons.house(), label: 'Home', page: const HomeTab()),
     NavigationDestinationConfig(icon: PhosphorIcons.playCircle(), label: 'Player', page: const PlayerTab()),
+    NavigationDestinationConfig(icon: PhosphorIcons.usersThree(), label: 'Community', page: const CommunityScreen()),
     NavigationDestinationConfig(icon: PhosphorIcons.notebook(), label: 'Diario', page: const DiarioTab()),
   ];
 }

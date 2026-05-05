@@ -8,6 +8,9 @@ import '../../core/providers.dart';
 import '../../core/config/app_config.dart';
 import '../../core/config/active_config.dart';
 import '../../shared/widgets/app_ui_components.dart';
+import '../inspiration/providers/inspiration_provider.dart';
+import '../inspiration/widgets/inspiration_card.dart';
+import '../inspiration/services/inspiration_sharing_service.dart';
 
 class HomeTab extends ConsumerWidget {
   const HomeTab({super.key});
@@ -130,44 +133,26 @@ class HomeTab extends ConsumerWidget {
   }
 
   Widget _buildInspirationSection(InspirationSectionConfig section, AppConfig config) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(section.sectionTitle, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700)),
-        const SizedBox(height: 16),
-        AppGlassCard(
-          height: 280,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppPill(text: section.pillText),
-              const SizedBox(height: 16),
-              Text(section.mainTitle,
-                  style: GoogleFonts.cormorantGaramond(fontSize: 28, fontWeight: FontWeight.w600, color: config.primaryAccent)),
-              const SizedBox(height: 8),
-              Text(section.mainText,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(fontSize: 15, height: 1.5, color: config.textPrimary)),
-              const Spacer(),
-              const Divider(color: Colors.white10),
-              if (section.secondaryText != null) 
-                Row(
-                  children: [
-                    if (section.secondaryIcon != null) ...[
-                      Icon(section.secondaryIcon, size: 16, color: config.primaryAccent),
-                      const SizedBox(width: 8),
-                    ],
-                    Expanded(
-                      child: Text(section.secondaryText!,
-                          style: GoogleFonts.inter(fontSize: 13, color: config.textSecondary)),
-                    ),
-                  ],
-                )
-            ],
-          ),
-        ),
-      ],
+    return Consumer(
+      builder: (context, ref, child) {
+        final inspirationAsync = ref.watch(dailyInspirationProvider);
+        
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(section.sectionTitle, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700)),
+            const SizedBox(height: 16),
+            inspirationAsync.when(
+              data: (inspiration) => InspirationCard(
+                inspiration: inspiration,
+                onShare: () => InspirationSharingService().shareInspiration(context, inspiration),
+              ),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (e, st) => Text('Error: $e'),
+            ),
+          ],
+        );
+      },
     );
   }
 
