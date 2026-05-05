@@ -80,7 +80,7 @@ class GamificationNotifier extends _$GamificationNotifier {
     
     state = AsyncData(newStats);
     await _repository.saveStats(newStats);
-    HapticFeedback.success();
+    HapticFeedback.mediumImpact();
   }
 
   Future<void> completeQuest(String questId) async {

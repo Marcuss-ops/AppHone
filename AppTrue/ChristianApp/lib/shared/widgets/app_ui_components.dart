@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:glossy/glossy.dart';
 
 class AppGlassCard extends StatelessWidget {
   final Widget child;
@@ -26,7 +24,7 @@ class AppGlassCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final effectiveBorderColor = borderColor ?? theme.colorScheme.primary.withOpacity(0.12);
+    final effectiveBorderColor = borderColor ?? theme.colorScheme.primary.withValues(alpha: 0.12);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
@@ -34,13 +32,13 @@ class AppGlassCard extends StatelessWidget {
         height: height,
         width: width ?? double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(opacity),
+          color: Colors.white.withValues(alpha: opacity),
           borderRadius: BorderRadius.circular(borderRadius),
           border: Border.all(color: effectiveBorderColor),
         ),
         child: BackdropFilter(
           filter: ColorFilter.mode(
-            Colors.white.withOpacity(0.01),
+            Colors.white.withValues(alpha: 0.01),
             BlendMode.overlay,
           ),
           child: Padding(
@@ -56,57 +54,44 @@ class AppGlassCard extends StatelessWidget {
 class AppPill extends StatelessWidget {
   final String text;
   final Color? color;
-
+  
   const AppPill({super.key, required this.text, this.color});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final effectiveColor = color ?? theme.colorScheme.primary;
-
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: effectiveColor.withOpacity(0.08),
+        color: (color ?? Colors.white).withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: effectiveColor.withOpacity(0.2)),
+        border: Border.all(color: (color ?? Colors.white).withValues(alpha: 0.2)),
       ),
       child: Text(
         text.toUpperCase(),
         style: GoogleFonts.inter(
-          fontSize: 11,
-          letterSpacing: 1.2,
-          color: effectiveColor,
-          fontWeight: FontWeight.w600,
+          fontSize: 9,
+          fontWeight: FontWeight.w900,
+          letterSpacing: 1.1,
+          color: color ?? Colors.white,
         ),
       ),
     );
   }
 }
 
-class AppButton extends StatelessWidget {
+class AppPrimaryButton extends StatelessWidget {
   final String text;
-  final Color? color;
   final VoidCallback onPressed;
-
-  const AppButton({
-    super.key,
-    required this.text,
-    this.color,
-    required this.onPressed,
-  });
+  
+  const AppPrimaryButton({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final effectiveColor = color ?? theme.colorScheme.primary;
-
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: effectiveColor,
-        foregroundColor: Colors.black, // Dark text on orange background looks premium
-        elevation: 0,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
       ),

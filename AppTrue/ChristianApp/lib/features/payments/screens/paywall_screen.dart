@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../brand_config.dart';
-import '../../../core/config/app_config.dart';
+import '../../../core/config/active_config.dart';
 
 class PaywallScreen extends ConsumerWidget {
   const PaywallScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final config = ref.watch(activeConfigProvider);
+    
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -20,7 +22,7 @@ class PaywallScreen extends ConsumerWidget {
               const Icon(Icons.lock_open, color: BrandConfig.secondaryColor, size: 64),
               const SizedBox(height: 24),
               Text(
-                'Sblocca ${BrandConfig.appName} Premium',
+                'Sblocca ${config.appName} Premium',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -37,7 +39,7 @@ class PaywallScreen extends ConsumerWidget {
               _feature('Corsi completi con certificato'),
               _feature('Audio offline'),
               _feature('Senza pubblicità'),
-              _feature('${AppConfig.trialDays} giorni gratis'),
+              _feature('${config.trialDays} giorni gratis'),
               const Spacer(),
               ElevatedButton(
                 onPressed: () => context.push('/pricing'),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -116,120 +115,93 @@ class HomeTab extends ConsumerWidget {
     );
   }
 
-  Widget _buildMoodSection(AppConfig config) {
-    final moods = [
-      {'label': 'Ansioso', 'icon': PhosphorIcons.wind()},
-      {'label': 'Grato', 'icon': PhosphorIcons.sun()},
-      {'label': 'Stanco', 'icon': PhosphorIcons.moon()},
-      {'label': 'Smarrito', 'icon': PhosphorIcons.compass()},
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('COME TI SENTI OGGI?', 
-            style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 1.2, color: config.primaryAccent)),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 90,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: moods.length,
-            itemBuilder: (context, index) {
-              final mood = moods[index];
-              return Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: Column(
-                  children: [
-                    Container(
-                      width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.05),
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white.withOpacity(0.1)),
-                      ),
-                      child: Icon(mood['icon'] as IconData, color: Colors.white, size: 24),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(mood['label'] as String, 
-                        style: GoogleFonts.inter(fontSize: 12, color: config.textSecondary)),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildGuidedMomentSection(GuidedMomentConfig moment, AppConfig config) {
     return AppGlassCard(
       opacity: 0.15,
       borderRadius: 32,
       borderColor: config.primaryAccent.withValues(alpha: 0.3),
       padding: const EdgeInsets.all(24),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: config.primaryAccent.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              config.copy.homeFriendsPrayedPill,
+              style: GoogleFonts.inter(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                color: config.primaryAccent,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(moment.icon, color: config.primaryAccent, size: 20),
-                    const SizedBox(width: 8),
+                    Row(
+                      children: [
+                        Icon(moment.icon, color: config.primaryAccent, size: 20),
+                        const SizedBox(width: 8),
+                        Text(
+                          moment.durationText,
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                            color: config.primaryAccent,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
                     Text(
-                      moment.durationText,
+                      moment.title,
                       style: GoogleFonts.inter(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w900,
-                        color: config.primaryAccent,
-                        letterSpacing: 1,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      moment.subtitle,
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        color: config.textSecondary,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  moment.title,
-                  style: GoogleFonts.inter(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+              ),
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      blurRadius: 20,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  moment.subtitle,
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
-                    color: config.textSecondary,
-                  ),
+                child: Icon(
+                  PhosphorIcons.play(PhosphorIconsStyle.fill),
+                  color: Colors.black,
+                  size: 32,
                 ),
-              ],
-            ),
-          ),
-          Container(
-            width: 64,
-            height: 64,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            child: Icon(
-              PhosphorIcons.play(PhosphorIconsStyle.fill),
-              color: Colors.black,
-              size: 32,
-            ),
+              ),
+            ],
           ),
         ],
       ),
@@ -245,7 +217,7 @@ class HomeTab extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(config.copy.homeGreeting, 
-                style: GoogleFonts.inter(fontSize: 34, fontWeight: FontWeight.w800)),
+                style: GoogleFonts.inter(fontSize: 34, fontWeight: FontWeight.w800, color: Colors.white)),
             const SizedBox(height: 4),
             Text(DateFormat('EEEE d MMMM', config.localeCode).format(DateTime.now()), 
                 style: TextStyle(color: config.textSecondary, fontSize: 14)),
@@ -263,11 +235,11 @@ class HomeTab extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(config.copy.homeGreeting.toUpperCase(), // Using Greeting as fallback or we can add a specific label
+        Text(config.copy.homeJourneyTitle.toUpperCase(), 
             style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 1.2, color: config.primaryAccent)),
         const SizedBox(height: 12),
         SizedBox(
-          height: 90,
+          height: 110,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: 14,
@@ -291,10 +263,10 @@ class HomeTab extends ConsumerWidget {
                         width: 38,
                         height: 38,
                         decoration: BoxDecoration(
-                          color: hasCompleted ? Colors.green.withOpacity(0.15) : Colors.red.withOpacity(0.08),
+                          color: hasCompleted ? Colors.green.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.05),
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: hasCompleted ? Colors.green.withOpacity(0.6) : Colors.red.withOpacity(0.3),
+                            color: hasCompleted ? Colors.green.withValues(alpha: 0.6) : Colors.white.withValues(alpha: 0.1),
                             width: isToday ? 2 : 1,
                           ),
                         ),
@@ -304,12 +276,29 @@ class HomeTab extends ConsumerWidget {
                             style: GoogleFonts.inter(
                               fontSize: 14, 
                               fontWeight: isToday ? FontWeight.bold : FontWeight.normal,
-                              color: hasCompleted ? Colors.green[300] : Colors.red[200],
+                              color: hasCompleted ? Colors.green[300] : Colors.white70,
                             ),
                           ),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 6),
+                    if (hasCompleted)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _smallAvatar('M', Colors.blue),
+                          const SizedBox(width: 2),
+                          _smallAvatar('F', Colors.orange),
+                        ],
+                      )
+                    else if (isToday)
+                      GestureDetector(
+                        onTap: () {
+                          // Trigger invite
+                        },
+                        child: Icon(Icons.add_circle_outline, size: 14, color: config.primaryAccent.withValues(alpha: 0.5)),
+                      ),
                   ],
                 ),
               );
@@ -320,27 +309,37 @@ class HomeTab extends ConsumerWidget {
     );
   }
 
+  Widget _smallAvatar(String initial, Color color) {
+    return Container(
+      width: 14,
+      height: 14,
+      decoration: BoxDecoration(color: color.withValues(alpha: 0.8), shape: BoxShape.circle),
+      child: Center(
+        child: Text(initial, style: const TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.white)),
+      ),
+    );
+  }
+
   Widget _buildInspirationSection(InspirationSectionConfig section, AppConfig config) {
-    return Consumer(
-      builder: (context, ref, child) {
-        final inspirationAsync = ref.watch(dailyInspirationProvider);
-        
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(section.sectionTitle, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700)),
-            const SizedBox(height: 16),
-            inspirationAsync.when(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(section.sectionTitle, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
+        const SizedBox(height: 16),
+        Consumer(
+          builder: (context, ref, child) {
+            final inspirationAsync = ref.watch(dailyInspirationProvider);
+            return inspirationAsync.when(
               data: (inspiration) => InspirationCard(
                 inspiration: inspiration,
                 onShare: () => InspirationSharingService().shareInspiration(context, inspiration),
               ),
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, st) => Text('Error: $e'),
-            ),
-          ],
-        );
-      },
+              error: (e, st) => Text('Error: $e', style: const TextStyle(color: Colors.white)),
+            );
+          },
+        ),
+      ],
     );
   }
 
@@ -348,11 +347,12 @@ class HomeTab extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(section.sectionTitle, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700)),
+        Text(section.sectionTitle, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
         const SizedBox(height: 16),
         AppGlassCard(
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 children: [
@@ -372,11 +372,30 @@ class HomeTab extends ConsumerWidget {
                     bottom: 0,
                     child: Container(
                       padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: config.primaryAccent, shape: BoxShape.circle),
+                      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                       child: Icon(section.actionIcon, size: 20, color: Colors.black),
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(height: 24),
+              Divider(color: Colors.white.withValues(alpha: 0.1)),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                child: Row(
+                  children: [
+                    Text(
+                      config.copy.homeListenTogetherAction,
+                      style: GoogleFonts.inter(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: config.primaryAccent,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -389,7 +408,7 @@ class HomeTab extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(config.quickPracticesSectionTitle, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700)),
+        Text(config.copy.homeQuickPracticesTitle, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
         const SizedBox(height: 16),
         ...config.quickPractices.map((practice) => Padding(
           padding: const EdgeInsets.only(bottom: 12),
@@ -411,15 +430,15 @@ class _AudioPracticeCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.04),
+        color: Colors.white.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: config.primaryAccent.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(color: config.primaryAccent.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
             child: Icon(practice.icon, color: config.primaryAccent, size: 20),
           ),
           const SizedBox(width: 16),
@@ -427,13 +446,13 @@ class _AudioPracticeCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(practice.title, style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 15)),
+                Text(practice.title, style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white)),
                 const SizedBox(height: 4),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(2),
                   child: LinearProgressIndicator(
                     value: 0.1,
-                    backgroundColor: Colors.white.withOpacity(0.05),
+                    backgroundColor: Colors.white.withValues(alpha: 0.05),
                     valueColor: AlwaysStoppedAnimation(config.primaryAccent),
                     minHeight: 3,
                   ),
@@ -462,9 +481,9 @@ class _StreakBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.orange.withOpacity(0.1),
+        color: Colors.orange.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+        border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [

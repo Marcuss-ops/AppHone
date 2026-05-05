@@ -28,7 +28,7 @@ class LeaderboardCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Weekly Leaderboard', style: AppDesignSystem.h2),
+              Text('Weekly Leaderboard', style: AppDesignSystem.h2),
               Icon(Icons.emoji_events_outlined, color: BrandConfig.secondaryColor),
             ],
           ),

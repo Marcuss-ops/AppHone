@@ -41,7 +41,20 @@ switch ($cmd) {
         Run-Flutter "run -d ios"
     }
 
+    "check" {
+        Write-Host "=== ANALISI CODICE (Pre-flight check) ===" -ForegroundColor Yellow
+        Run-Flutter "analyze"
+    }
+
     "web" {
+        Write-Host "=== VALIDAZIONE CODICE ===" -ForegroundColor Cyan
+        $analysis = flutter analyze
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "❌ ERRORE: L'analisi del codice è fallita. Risolvi gli errori prima di compilare!" -ForegroundColor Red
+            exit $LASTEXITCODE
+        }
+        Write-Host "✅ Codice valido. Procedo con il build..." -ForegroundColor Green
+        
         Write-Host "=== FULL CLEAN + BUILD WEB + RUN (PORT 8080) ===" -ForegroundColor Yellow
         Run-Flutter "clean"
         Run-Flutter "pub get"

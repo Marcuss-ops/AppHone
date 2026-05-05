@@ -40,10 +40,25 @@ class GenericContentConfig implements AppConfig {
   Color get textSecondary => const Color(0xFF94A3B8);   // Slate 400
   
   @override
-  Color get cardBorder => const Color(0xFF38BDF8).withOpacity(0.2);
+  Color get cardBorder => const Color(0xFF38BDF8).withValues(alpha: 0.2);
+
+  @override bool get enableAuth => false;
+  @override bool get enableGamification => false;
+  @override bool get enablePayments => false;
+  @override bool get enableLearningPath => true;
+  @override bool get enableAudioPlayer => true;
+  @override bool get hasCompletionCalendar => false;
+
+  @override int get trialDays => 14;
+  @override String get stripePriceMonthly => 'price_generic_123';
+  @override String get stripePriceYearly => 'price_generic_456';
+  @override String get stripePriceLifetime => 'price_generic_789';
 
   @override
-  bool get hasCompletionCalendar => false; 
+  List<HomeSectionConfig> get homeSections => [
+    const HomeSectionConfig(id: 'inspiration', titleKey: 'daily', type: HomeSectionType.inspiration),
+    const HomeSectionConfig(id: 'featured', titleKey: 'featured', type: HomeSectionType.featured),
+  ];
 
   @override
   InspirationSectionConfig? get inspirationSection => InspirationSectionConfig(

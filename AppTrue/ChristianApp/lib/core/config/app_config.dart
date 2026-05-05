@@ -15,10 +15,15 @@ abstract class AppCopy {
   // Home
   String get homeGreeting;
   String get homeSubtitle;
+  String get homeJourneyTitle; // "Cammino di gruppo"
+  String get homeJourneyInviteAction; // "Invita qualcuno per riempirlo"
   String get homeGuidedTitle;
   String get homeGuidedSubtitle;
+  String get homeFriendsPrayedPill; // "{count} amici hanno pregato oggi"
+  String get homeListenTogetherAction; // "Ascolta insieme"
   String get homeWrappedTitle;
   String get homeWrappedAction;
+  String get homeQuickPracticesTitle;
 
   // Community
   String get communityTitle;
@@ -29,12 +34,18 @@ abstract class AppCopy {
   String get communityInputPlaceholder;
   String get communityPostAction;
   String get communitySupportAction;
-  String get communityLiveCountTemplate; // e.g. "{count} people praying"
+  String get communityLiveCountContacts; // "{count} tuoi contatti +"
+  String get communityLiveCountOthers; // "{count} altri stanno pregando ora"
   String get communityPrayerTitle;
   String get communityPrayerAction;
+  String get communityInviteWhatsApp; // "Invita su WhatsApp"
 
   // Player
   String get playerContinueWatching;
+  String get playerCompletedTitle; // "Hai completato"
+  String get playerCompletedSubtitle; // "Con chi vuoi condividere questa pace?"
+  String get playerShareWhatsApp; // "Invia su WhatsApp"
+  String get playerCreateVerseImage; // "Crea immagine versetto"
 }
 
 abstract class AppConfig {
@@ -53,16 +64,42 @@ abstract class AppConfig {
   Color get cardBorder;
   
   // Feature flags
+  bool get enableAuth;
+  bool get enableGamification;
+  bool get enablePayments;
+  bool get enableLearningPath;
+  bool get enableAudioPlayer;
   bool get hasCompletionCalendar;
   
+  // Payment Config
+  int get trialDays;
+  String get stripePriceMonthly;
+  String get stripePriceYearly;
+  String get stripePriceLifetime;
+
   // Config sections
   InspirationSectionConfig? get inspirationSection;
   FeaturedSectionConfig? get featuredSection;
   List<QuickPracticeConfig> get quickPractices;
   GuidedMomentConfig? get guidedMoment;
+  List<HomeSectionConfig> get homeSections;
   
   // Navigation
   List<NavigationDestinationConfig> get navigationDestinations;
+}
+
+enum HomeSectionType { category, featured, inspiration, quickPractices, wrapped }
+
+class HomeSectionConfig {
+  final String id;
+  final String titleKey;
+  final HomeSectionType type;
+
+  const HomeSectionConfig({
+    required this.id,
+    required this.titleKey,
+    required this.type,
+  });
 }
 
 class GuidedMomentConfig {

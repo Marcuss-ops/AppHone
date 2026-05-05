@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import '../config/app_config.dart';
 
 class RemoteConfig {
   final String primaryColor;
@@ -30,8 +28,8 @@ class RemoteConfig {
       primaryColor: '#5A3D1E',
       secondaryColor: '#6D5C44',
       featureFlags: {
-        'enableGamification': AppConfig.enableGamification,
-        'enablePayments': AppConfig.enablePayments,
+        'enableGamification': true,
+        'enablePayments': false,
       },
       copyOverrides: {},
     );
@@ -39,18 +37,9 @@ class RemoteConfig {
 }
 
 class RemoteConfigService {
-  final SupabaseClient _supabase = Supabase.instance.client;
-
   Future<RemoteConfig> fetchConfig(String channelSlug) async {
     try {
-      // In a real scenario, this would be a table named 'app_configs'
-      // final response = await _supabase
-      //     .from('app_configs')
-      //     .select()
-      //     .eq('channel_slug', channelSlug)
-      //     .single();
-      
-      // For now, returning defaults or simulated data
+      // Simulation
       await Future.delayed(const Duration(milliseconds: 500));
       return RemoteConfig.defaults();
     } catch (e) {
@@ -64,6 +53,5 @@ final remoteConfigServiceProvider = Provider((ref) => RemoteConfigService());
 
 final remoteConfigProvider = FutureProvider<RemoteConfig>((ref) async {
   final service = ref.watch(remoteConfigServiceProvider);
-  // Using a placeholder channel slug, in production this would be passed or fetched from build config
   return service.fetchConfig('generic');
 });

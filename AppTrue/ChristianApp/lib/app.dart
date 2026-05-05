@@ -1,9 +1,33 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:skelphone/core/config/active_config.dart';
 
-import 'core/config/active_config.dart';
+class SkelApp extends ConsumerWidget {
+  const SkelApp({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final config = ref.watch(activeConfigProvider);
+    
+    return MaterialApp(
+      title: config.appName,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.black,
+        primaryColor: config.primaryAccent,
+        colorScheme: ColorScheme.dark(
+          primary: config.primaryAccent,
+          secondary: config.primaryAccent.withValues(alpha: 0.7),
+          surface: const Color(0xFF1A1A1A),
+        ),
+        textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
+      ),
+      home: const MainShell(),
+    );
+  }
+}
 
 class MainShell extends ConsumerStatefulWidget {
   const MainShell({super.key});
@@ -12,53 +36,42 @@ class MainShell extends ConsumerStatefulWidget {
 }
 
 class _MainShellState extends ConsumerState<MainShell> {
-  int idx = 0;
-  final PageController _pageController = PageController();
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final config = ref.watch(activeConfigProvider);
-    final pages = config.navigationDestinations.map((d) => d.page).toList();
+    final destinations = config.navigationDestinations;
 
     return Scaffold(
-      extendBody: true,
       body: Container(
         decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment.topCenter,
-            radius: 1.2,
-            colors: [config.backgroundEnd, config.backgroundStart],
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [config.backgroundStart, config.backgroundEnd],
           ),
         ),
-        child: IndexedStack(
-          index: idx,
-          children: pages,
-        ),
+        child: destinations[_selectedIndex].page,
       ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        child: NavigationBar(
-          backgroundColor: Colors.black.withOpacity(0.85),
-          height: 72,
-          indicatorColor: Colors.transparent,
-          selectedIndex: idx,
-          onDestinationSelected: (i) {
-            HapticFeedback.lightImpact();
-            setState(() => idx = i);
-          },
-          destinations: config.navigationDestinations.map((d) {
-            return NavigationDestination(
-              icon: Icon(d.icon, color: Colors.white70),
-              selectedIcon: Icon(d.icon, color: Colors.white),
-              label: '',
-            );
-          }).toList(),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.05))),
+        ),
+        child: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: (index) => setState(() => _selectedIndex = index),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: config.primaryAccent,
+          unselectedItemColor: Colors.white.withValues(alpha: 0.4),
+          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+          unselectedLabelStyle: const TextStyle(fontSize: 12),
+          items: destinations.map((d) => BottomNavigationBarItem(
+            icon: Icon(d.icon),
+            label: d.label,
+          )).toList(),
         ),
       ),
     );

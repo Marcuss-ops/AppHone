@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:glossy/glossy.dart';
 import '../../core/theme/app_colors.dart';
-import '../../shared/widgets/app_ui_components.dart';
 import 'bible_reader.dart';
 
 class BibbiaTab extends StatelessWidget {
@@ -22,7 +21,7 @@ class BibbiaTab extends StatelessWidget {
               hintText: 'Cerca passo',
               prefixIcon: const Icon(Icons.search),
               filled: true,
-              fillColor: Colors.white.withOpacity(0.05),
+              fillColor: Colors.white.withValues(alpha: 0.05),
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
             ),
           ),

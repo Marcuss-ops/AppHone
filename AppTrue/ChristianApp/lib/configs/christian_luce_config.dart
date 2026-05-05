@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../core/config/app_config.dart';
-import '../core/theme/app_colors.dart';
 import 'christian_luce_copy.dart';
 
 // Import features
 import '../features/home/home_tab.dart'; 
 import '../features/christian/player_tab.dart';
-import '../features/christian/diario_tab.dart';
 import '../features/community/screens/community_screen.dart';
 
 class ChristianLuceConfig implements AppConfig {
@@ -24,46 +22,61 @@ class ChristianLuceConfig implements AppConfig {
   Color get backgroundStart => const Color(0xFF0F0D0B);
   
   @override
-  Color get backgroundEnd => const Color(0xFF1E1A16);
+  Color get backgroundEnd => const Color(0xFF1E1B18);
   
   @override
-  Color get primaryAccent => const Color(0xFFD97757); // Claude Orange
+  Color get primaryAccent => const Color(0xFFD4AF37); // Oro
   
   @override
-  Color get textPrimary => const Color(0xFFF5F5F5);   // Bianco Chiuso
+  Color get textPrimary => const Color(0xFFFFFFFF);
   
   @override
-  Color get textSecondary => const Color(0xFFAFA59B);
+  Color get textSecondary => const Color(0xFFAFAFAF);
   
   @override
-  Color get cardBorder => const Color(0xFFD97757).withOpacity(0.12);
+  Color get cardBorder => const Color(0xFFD4AF37).withValues(alpha: 0.15);
+
+  @override bool get enableAuth => false;
+  @override bool get enableGamification => true;
+  @override bool get enablePayments => false;
+  @override bool get enableLearningPath => false;
+  @override bool get enableAudioPlayer => true;
+  @override bool get hasCompletionCalendar => true;
+
+  @override int get trialDays => 7;
+  @override String get stripePriceMonthly => 'price_123';
+  @override String get stripePriceYearly => 'price_456';
+  @override String get stripePriceLifetime => 'price_789';
 
   @override
-  bool get hasCompletionCalendar => true;
+  List<HomeSectionConfig> get homeSections => [
+    const HomeSectionConfig(id: 'calendar', titleKey: 'journey', type: HomeSectionType.category),
+    const HomeSectionConfig(id: 'featured', titleKey: 'featured', type: HomeSectionType.featured),
+    const HomeSectionConfig(id: 'inspiration', titleKey: 'inspiration', type: HomeSectionType.inspiration),
+  ];
 
   @override
   InspirationSectionConfig? get inspirationSection => InspirationSectionConfig(
     sectionTitle: 'Ispirazione',
-    pillText: 'Parola del giorno',
-    mainTitle: 'Giovanni 8:12',
-    mainText: '"Io sono la luce del mondo; chi segue me, non camminerà nelle tenebre, ma avrà la luce della vita."',
-    secondaryText: 'San Floriano • Martire del giorno',
-    secondaryIcon: PhosphorIcons.star(),
+    pillText: 'VERSETTO DEL GIORNO',
+    mainTitle: 'Fede e Speranza',
+    mainText: 'Il Signore è il mio pastore: non manco di nulla. Su pascoli erbosi mi fa riposare, ad acque tranquille mi conduce.',
+    secondaryText: 'Salmi 23:1-2',
+    secondaryIcon: PhosphorIcons.bookOpen(),
   );
 
   @override
   FeaturedSectionConfig? get featuredSection => FeaturedSectionConfig(
     sectionTitle: 'In primo piano',
-    pillText: 'Meditazione',
-    mainTitle: 'Rosario del Giorno',
-    subtitle: 'Misteri Gaudiosi',
+    pillText: 'PRATICA',
+    mainTitle: 'Santo Rosario',
+    subtitle: 'Meditazione dei misteri gloriosi',
     actionIcon: PhosphorIcons.play(PhosphorIconsStyle.fill),
   );
 
   @override
   List<QuickPracticeConfig> get quickPractices => [
-    QuickPracticeConfig(title: 'Lectio Divina', subtitle: 'Vangelo di Giovanni', icon: PhosphorIcons.book()),
-    QuickPracticeConfig(title: 'Santo Rosario', subtitle: 'Preghiera completa', icon: PhosphorIcons.circleDashed()),
+    QuickPracticeConfig(title: 'Preghiera del mattino', subtitle: '3 min • Audio', icon: PhosphorIcons.sun()),
     QuickPracticeConfig(title: 'Vangelo Audio', subtitle: 'Lettura del giorno', icon: PhosphorIcons.microphone()),
   ];
 

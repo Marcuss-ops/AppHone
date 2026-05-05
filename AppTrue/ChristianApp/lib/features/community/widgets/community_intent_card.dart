@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../models/community_intent.dart';
-import '../../../core/config/app_copy.dart';
-import '../../../brand_config.dart';
+import '../../../core/config/app_config.dart';
+import '../../../core/config/active_config.dart';
 import '../../../shared/widgets/app_ui_components.dart';
 import 'dart:math';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CommunityIntentCard extends StatelessWidget {
+class CommunityIntentCard extends ConsumerWidget {
   final CommunityIntent intent;
   final VoidCallback onSupport;
 
@@ -26,7 +27,7 @@ class CommunityIntentCard extends StatelessWidget {
     "Vieni, Spirito Santo, riempi i cuori dei tuoi fedeli e accendi in essi il fuoco del tuo amore.",
   ];
 
-  void _showPrayerDialog(BuildContext context) {
+  void _showPrayerDialog(BuildContext context, AppConfig config) {
     final randomPrayer = _prayers[Random().nextInt(_prayers.length)];
 
     showDialog(
@@ -36,16 +37,16 @@ class CommunityIntentCard extends StatelessWidget {
         child: AppGlassCard(
           opacity: 0.15,
           borderRadius: 32,
-          borderColor: BrandConfig.primaryColor.withValues(alpha: 0.3),
+          borderColor: config.primaryAccent.withValues(alpha: 0.3),
           padding: const EdgeInsets.all(32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(PhosphorIcons.handsPraying(PhosphorIconsStyle.fill), 
-                  color: BrandConfig.primaryColor, size: 48),
+                  color: config.primaryAccent, size: 48),
               const SizedBox(height: 24),
               Text(
-                'Preghiamo insieme',
+                config.copy.communityPrayerTitle,
                 style: GoogleFonts.inter(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -78,7 +79,7 @@ class CommunityIntentCard extends StatelessWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   child: Text(
-                    'Ho Pregato',
+                    config.copy.communityPrayerAction,
                     style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
@@ -91,8 +92,9 @@ class CommunityIntentCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final timeAgo = _getTimeAgo(intent.createdAt);
+    final config = ref.watch(activeConfigProvider);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -108,13 +110,13 @@ class CommunityIntentCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 18,
-                  backgroundColor: BrandConfig.primaryColor.withValues(alpha: 0.1),
+                  backgroundColor: config.primaryAccent.withValues(alpha: 0.1),
                   child: Text(
                     intent.userName.substring(0, 1).toUpperCase(),
                     style: GoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: BrandConfig.primaryColor,
+                      color: config.primaryAccent,
                     ),
                   ),
                 ),
@@ -165,21 +167,21 @@ class CommunityIntentCard extends StatelessWidget {
                     Icon(
                       PhosphorIcons.heart(),
                       size: 16,
-                      color: BrandConfig.heartColor,
+                      color: Colors.red[300],
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '${intent.supportCount} ${AppCopy.communitySupportFeedback}',
+                      '${intent.supportCount} sostegni',
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: BrandConfig.heartColor,
+                        color: Colors.red[200],
                       ),
                     ),
                   ],
                 ),
                 TextButton.icon(
-                  onPressed: intent.hasUserSupported ? null : () => _showPrayerDialog(context),
+                  onPressed: intent.hasUserSupported ? null : () => _showPrayerDialog(context, config),
                   icon: Icon(
                     intent.hasUserSupported 
                       ? PhosphorIcons.checkCircle(PhosphorIconsStyle.fill)
@@ -188,7 +190,7 @@ class CommunityIntentCard extends StatelessWidget {
                     color: intent.hasUserSupported ? Colors.green : const Color(0xFFE8E0D5),
                   ),
                   label: Text(
-                    intent.hasUserSupported ? AppCopy.communitySupportActive : AppCopy.communitySupportAction,
+                    intent.hasUserSupported ? 'Hai pregato' : config.copy.communitySupportAction,
                     style: GoogleFonts.inter(
                       fontWeight: FontWeight.bold,
                       color: intent.hasUserSupported ? Colors.green : const Color(0xFFE8E0D5),

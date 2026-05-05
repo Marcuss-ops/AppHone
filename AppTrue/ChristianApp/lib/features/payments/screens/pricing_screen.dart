@@ -3,13 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../data/payments_repository.dart';
 import '../../../brand_config.dart';
-import '../../../core/config/app_config.dart';
+import '../../../core/config/active_config.dart';
 
 class PricingScreen extends ConsumerWidget {
   const PricingScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final config = ref.watch(activeConfigProvider);
+    
     return Scaffold(
       appBar: AppBar(title: const Text('Premium')),
       body: Padding(
@@ -22,7 +24,7 @@ class PricingScreen extends ConsumerWidget {
                 textAlign: TextAlign.center),
             const SizedBox(height: 8),
             Text(
-              '${AppConfig.trialDays} giorni gratis, poi scegli',
+              '${config.trialDays} giorni gratis, poi scegli',
               textAlign: TextAlign.center,
               style: TextStyle(color: BrandConfig.textSecondary),
             ),
@@ -31,7 +33,7 @@ class PricingScreen extends ConsumerWidget {
               name: 'Mensile',
               price: '€4,99/mese',
               planId: 'monthly',
-              stripePriceId: AppConfig.stripePriceMonthly,
+              stripePriceId: config.stripePriceMonthly,
               isPopular: false,
             ),
             const SizedBox(height: 12),
@@ -39,7 +41,7 @@ class PricingScreen extends ConsumerWidget {
               name: 'Annuale',
               price: '€39,99/anno',
               planId: 'yearly',
-              stripePriceId: AppConfig.stripePriceYearly,
+              stripePriceId: config.stripePriceYearly,
               isPopular: true,
               badge: 'Risparmia 33%',
             ),
@@ -48,7 +50,7 @@ class PricingScreen extends ConsumerWidget {
               name: 'Accesso a vita',
               price: '€149,99',
               planId: 'lifetime',
-              stripePriceId: AppConfig.stripePriceLifetime,
+              stripePriceId: config.stripePriceLifetime,
               isPopular: false,
             ),
           ],
