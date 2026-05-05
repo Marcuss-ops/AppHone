@@ -104,7 +104,7 @@ class PlayerTab extends ConsumerWidget {
           
           const SizedBox(height: 32),
           
-          Text('COSA HAI GUARDATO DI RECENTE', 
+          Text('CONTINUA A GUARDARE', 
               style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 1.2, color: config.primaryAccent)),
           const SizedBox(height: 16),
           _recentItem('Riflessione sul Vangelo', 'Video • 12 min', config),

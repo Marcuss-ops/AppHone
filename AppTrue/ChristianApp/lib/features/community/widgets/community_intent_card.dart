@@ -5,6 +5,7 @@ import '../models/community_intent.dart';
 import '../../../core/config/app_copy.dart';
 import '../../../brand_config.dart';
 import '../../../shared/widgets/app_ui_components.dart';
+import 'dart:math';
 
 class CommunityIntentCard extends StatelessWidget {
   final CommunityIntent intent;
@@ -15,6 +16,79 @@ class CommunityIntentCard extends StatelessWidget {
     required this.intent,
     required this.onSupport,
   });
+
+  static const List<String> _prayers = [
+    "Padre Nostro, che sei nei cieli, sia santificato il tuo nome, venga il tuo regno, sia fatta la tua volontà, come in cielo così in terra...",
+    "Ave Maria, piena di grazia, il Signore è con te. Tu sei benedetta fra le donne e benedetto è il frutto del tuo seno, Gesù.",
+    "L'eterno riposo dona loro, o Signore, e splenda ad essi la luce perpetua. Riposino in pace. Amen.",
+    "Angelo di Dio, che sei il mio custode, illumina, custodisci, reggi e governa me, che ti fui affidato dalla pietà celeste. Amen.",
+    "Signore, fa' di me uno strumento della tua pace. Dove è odio, fa' ch'io porti l'amore. Dove è offesa, ch'io porti il perdono.",
+    "Vieni, Spirito Santo, riempi i cuori dei tuoi fedeli e accendi in essi il fuoco del tuo amore.",
+  ];
+
+  void _showPrayerDialog(BuildContext context) {
+    final randomPrayer = _prayers[Random().nextInt(_prayers.length)];
+
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: AppGlassCard(
+          opacity: 0.15,
+          borderRadius: 32,
+          borderColor: BrandConfig.primaryColor.withValues(alpha: 0.3),
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(PhosphorIcons.handsPraying(PhosphorIconsStyle.fill), 
+                  color: BrandConfig.primaryColor, size: 48),
+              const SizedBox(height: 24),
+              Text(
+                'Preghiamo insieme',
+                style: GoogleFonts.inter(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                randomPrayer,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.libreBaskerville(
+                  fontSize: 18,
+                  height: 1.6,
+                  fontStyle: FontStyle.italic,
+                  color: const Color(0xFFE8E0D5),
+                ),
+              ),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    onSupport();
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  ),
+                  child: Text(
+                    'Ho Pregato',
+                    style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +153,6 @@ class CommunityIntentCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            // Use a Wrap instead of a Row to prevent horizontal overflow on small screens
             Wrap(
               alignment: WrapAlignment.spaceBetween,
               crossAxisAlignment: WrapCrossAlignment.center,
@@ -106,7 +179,7 @@ class CommunityIntentCard extends StatelessWidget {
                   ],
                 ),
                 TextButton.icon(
-                  onPressed: intent.hasUserSupported ? null : onSupport,
+                  onPressed: intent.hasUserSupported ? null : () => _showPrayerDialog(context),
                   icon: Icon(
                     intent.hasUserSupported 
                       ? PhosphorIcons.checkCircle(PhosphorIconsStyle.fill)
@@ -133,7 +206,6 @@ class CommunityIntentCard extends StatelessWidget {
                 ),
               ],
             ),
-
           ],
         ),
       ),
