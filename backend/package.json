@@ -1,0 +1,28 @@
+{
+  "name": "skelphone-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@fastify/cors": "^9.0.1",
+    "drizzle-orm": "^0.30.10",
+    "fastify": "^4.27.0",
+    "fastify-plugin": "^4.5.1",
+    "postgres": "^3.4.4",
+    "stripe": "^15.7.0",
+    "@supabase/supabase-js": "^2.43.4",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "drizzle-kit": "^0.21.4",
+    "tsx": "^4.15.1",
+    "typescript": "^5.4.5"
+  }
+}

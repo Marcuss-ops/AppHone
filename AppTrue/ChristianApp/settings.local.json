@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(dir /a \"C:\\\\Users\\\\pater\\\\Pyt\\\\MobileApp\")",
+      "Bash(flutter --version)",
+      "Skill(update-config)"
+    ]
+  }
+}
