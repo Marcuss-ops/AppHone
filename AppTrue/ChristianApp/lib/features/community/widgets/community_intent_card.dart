@@ -24,6 +24,7 @@ class CommunityIntentCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16),
       child: GlossyContainer(
         width: double.infinity,
+        height: 200,
         strengthX: 16,
         strengthY: 16,
         opacity: 0.08,
