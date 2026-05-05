@@ -41,6 +41,14 @@ switch ($cmd) {
         Run-Flutter "run -d ios"
     }
 
+    "web" {
+        Write-Host "=== FULL CLEAN + BUILD WEB + RUN (PORT 8080) ===" -ForegroundColor Yellow
+        Run-Flutter "clean"
+        Run-Flutter "pub get"
+        Run-Flutter "build web"
+        Run-Flutter "run -d chrome --web-port 8080"
+    }
+
     "watch" {
         Write-Host "=== WATCH MODE (rigenera su modifica) ===" -ForegroundColor Yellow
         Run-Flutter "pub run build_runner watch --delete-conflicting-outputs"
@@ -76,6 +84,7 @@ UTILIZZO: .\dev.ps1 [comando]
   run      — avvia app su Windows
   android  — avvia app su Android
   ios      — avvia app su iOS (solo Mac)
+  web      — full clean + build release + run su porta 8080
   watch    — build_runner in watch mode
   clean    — pulizia completa + rebuild
   commit   — git add + commit + push su main
