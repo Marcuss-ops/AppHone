@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -21,7 +22,6 @@ class InspirationSharingService {
 
     try {
       // 1. Capture the widget as an image
-      // We create a hidden version of the widget specifically styled for IG Stories
       final Uint8List? imageBytes = await _screenshotController.captureFromWidget(
         Material(
           child: _InspirationStoryTemplate(inspiration: inspiration),
@@ -31,18 +31,25 @@ class InspirationSharingService {
       );
 
       if (imageBytes != null) {
-        // 2. Save to temporary directory
-        final tempDir = await getTemporaryDirectory();
-        final file = await File('${tempDir.path}/inspiration_share.png').create();
-        await file.writeAsBytes(imageBytes);
-
-        // 3. Close loading and trigger share
         if (context.mounted) Navigator.pop(context);
-        
-        await Share.shareXFiles(
-          [XFile(file.path)],
-          text: 'Shared with Grace from ${BrandConfig.appName}',
-        );
+
+        if (kIsWeb) {
+          // On Web, use shareXFiles with the bytes directly (supported by share_plus on web)
+          await Share.shareXFiles(
+            [XFile.fromData(imageBytes, name: 'inspiration.png', mimeType: 'image/png')],
+            text: 'Shared with Grace from ${BrandConfig.appName}',
+          );
+        } else {
+          // On Mobile/Desktop, save to temporary directory
+          final tempDir = await getTemporaryDirectory();
+          final file = await File('${tempDir.path}/inspiration_share.png').create();
+          await file.writeAsBytes(imageBytes);
+          
+          await Share.shareXFiles(
+            [XFile(file.path)],
+            text: 'Shared with Grace from ${BrandConfig.appName}',
+          );
+        }
       }
     } catch (e) {
       if (context.mounted) Navigator.pop(context);

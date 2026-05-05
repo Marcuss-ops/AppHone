@@ -79,10 +79,15 @@ class CommunityIntentCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // Use a Wrap instead of a Row to prevent horizontal overflow on small screens
+            Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 12,
+              runSpacing: 12,
               children: [
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
                       PhosphorIcons.heart(),
@@ -128,6 +133,7 @@ class CommunityIntentCard extends StatelessWidget {
                 ),
               ],
             ),
+
           ],
         ),
       ),
