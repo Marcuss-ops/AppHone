@@ -76,6 +76,14 @@ class GenericContentConfig implements AppConfig {
   ];
 
   @override
+  GuidedMomentConfig? get guidedMoment => GuidedMomentConfig(
+    title: 'Your Daily Momentum',
+    subtitle: 'Daily Insight • Short Video • Community Support',
+    durationText: '5 MIN',
+    icon: PhosphorIcons.lightning(PhosphorIconsStyle.fill),
+  );
+
+  @override
   List<NavigationDestinationConfig> get navigationDestinations => [
     NavigationDestinationConfig(icon: PhosphorIcons.house(), label: 'Home', page: const HomeTab()),
     NavigationDestinationConfig(icon: PhosphorIcons.usersThree(), label: 'Community', page: const CommunityScreen()),
