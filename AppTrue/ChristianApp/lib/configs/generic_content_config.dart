@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../core/config/app_config.dart';
+import 'generic_content_copy.dart';
 
 // Import generic features
 import '../features/home/home_tab.dart'; 
@@ -18,17 +19,11 @@ class GenericContentConfig implements AppConfig {
   String get appName => 'SkelPhone Demo';
   
   @override
-  String get welcomeMessage => 'Welcome back';
-
-  @override
   String get localeCode => 'en_US';
 
   @override
-  String get journeySectionTitle => 'Your Journey';
+  AppCopy get copy => GenericContentCopy();
 
-  @override
-  String get quickPracticesSectionTitle => 'Quick Actions';
-  
   @override
   Color get backgroundStart => const Color(0xFF0F172A); // Slate 900
   

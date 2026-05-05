@@ -263,7 +263,7 @@ class HomeTab extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(config.journeySectionTitle.toUpperCase(), 
+        Text(config.copy.homeGreeting.toUpperCase(), // Using Greeting as fallback or we can add a specific label
             style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 1.2, color: config.primaryAccent)),
         const SizedBox(height: 12),
         SizedBox(
