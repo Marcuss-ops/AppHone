@@ -1,0 +1,12 @@
+{
+  "@@locale": "en",
+  "homeGreeting": "Welcome back,",
+  "@homeGreeting": {
+    "description": "Greeting on the home screen"
+  },
+  "homeSubtitle": "Explore your content",
+  "featuredCategory": "Featured",
+  "latestCategory": "Latest",
+  "premiumBadge": "PREMIUM",
+  "freeBadge": "FREE"
+}

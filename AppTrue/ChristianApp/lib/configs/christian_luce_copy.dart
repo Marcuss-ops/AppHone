@@ -34,6 +34,14 @@ class ChristianLuceCopy implements AppCopy {
   @override String get communityPrayerTitle => 'Preghiamo insieme';
   @override String get communityPrayerAction => 'Ho Pregato';
   @override String get communityInviteWhatsApp => 'Invita su WhatsApp';
+  @override String get communityLightCandleAction => 'Accendi una candela';
+  @override String get communityCandleLitFeedback => 'Candela accesa';
+
+  @override String get referralUnlockTitle => 'Sblocca contenuto speciale';
+  @override String get referralUnlockSubtitle => 'Invita 3 amici o passa a Premium per ascoltare questa Novena.';
+  @override String get referralInviteAction => 'Invita 3 amici e sblocca';
+  @override String get referralPremiumAction => 'Passa a Premium';
+  @override String get referralProgressTemplate => '{current}/{target} amici invitati';
 
   @override String get playerContinueWatching => 'CONTINUA A GUARDARE';
   @override String get playerCompletedTitle => 'Hai completato';

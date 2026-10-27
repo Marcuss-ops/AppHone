@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../models/community_intent.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/config/active_config.dart';
 import '../../../shared/widgets/app_ui_components.dart';
 import 'dart:math';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CommunityIntentCard extends ConsumerWidget {
+class CommunityIntentCard extends ConsumerStatefulWidget {
   final CommunityIntent intent;
   final VoidCallback onSupport;
 
@@ -17,6 +18,13 @@ class CommunityIntentCard extends ConsumerWidget {
     required this.intent,
     required this.onSupport,
   });
+
+  @override
+  ConsumerState<CommunityIntentCard> createState() => _CommunityIntentCardState();
+}
+
+class _CommunityIntentCardState extends ConsumerState<CommunityIntentCard> {
+  bool _candleLit = false;
 
   static const List<String> _prayers = [
     "Padre Nostro, che sei nei cieli, sia santificato il tuo nome, venga il tuo regno, sia fatta la tua volontà, come in cielo così in terra...",
@@ -69,7 +77,7 @@ class CommunityIntentCard extends ConsumerWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    onSupport();
+                    widget.onSupport();
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
@@ -91,9 +99,20 @@ class CommunityIntentCard extends ConsumerWidget {
     );
   }
 
+  void _onLightCandle(AppConfig config) {
+    setState(() => _candleLit = true);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(config.copy.communityCandleLitFeedback),
+        backgroundColor: Colors.orange[800],
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final timeAgo = _getTimeAgo(intent.createdAt);
+  Widget build(BuildContext context) {
+    final timeAgo = _getTimeAgo(widget.intent.createdAt);
     final config = ref.watch(activeConfigProvider);
 
     return Padding(
@@ -112,7 +131,7 @@ class CommunityIntentCard extends ConsumerWidget {
                   radius: 18,
                   backgroundColor: config.primaryAccent.withValues(alpha: 0.1),
                   child: Text(
-                    intent.userName.substring(0, 1).toUpperCase(),
+                    widget.intent.userName.substring(0, 1).toUpperCase(),
                     style: GoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -126,7 +145,7 @@ class CommunityIntentCard extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        intent.userName,
+                        widget.intent.userName,
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
@@ -143,11 +162,17 @@ class CommunityIntentCard extends ConsumerWidget {
                     ],
                   ),
                 ),
+                if (_candleLit)
+                  const Icon(PhosphorIcons.flame(PhosphorIconsStyle.fill), color: Colors.orange, size: 24)
+                      .animate()
+                      .fadeIn()
+                      .scale()
+                      .shimmer(duration: 1200.ms, color: Colors.yellowAccent.withValues(alpha: 0.3)),
               ],
             ),
             const SizedBox(height: 16),
             Text(
-              intent.content,
+              widget.intent.content,
               style: GoogleFonts.inter(
                 fontSize: 16,
                 height: 1.5,
@@ -171,7 +196,7 @@ class CommunityIntentCard extends ConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '${intent.supportCount} sostegni',
+                      '${widget.intent.supportCount} sostegni',
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -180,31 +205,52 @@ class CommunityIntentCard extends ConsumerWidget {
                     ),
                   ],
                 ),
-                TextButton.icon(
-                  onPressed: intent.hasUserSupported ? null : () => _showPrayerDialog(context, config),
-                  icon: Icon(
-                    intent.hasUserSupported 
-                      ? PhosphorIcons.checkCircle(PhosphorIconsStyle.fill)
-                      : PhosphorIcons.sparkle(),
-                    size: 20,
-                    color: intent.hasUserSupported ? Colors.green : const Color(0xFFE8E0D5),
-                  ),
-                  label: Text(
-                    intent.hasUserSupported ? 'Hai pregato' : config.copy.communitySupportAction,
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.bold,
-                      color: intent.hasUserSupported ? Colors.green : const Color(0xFFE8E0D5),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextButton.icon(
+                      onPressed: _candleLit ? null : () => _onLightCandle(config),
+                      icon: Icon(
+                        _candleLit ? PhosphorIcons.flame(PhosphorIconsStyle.fill) : PhosphorIcons.flame(),
+                        size: 20,
+                        color: _candleLit ? Colors.orange : Colors.white70,
+                      ),
+                      label: Text(
+                        _candleLit ? config.copy.communityCandleLitFeedback : config.copy.communityLightCandleAction,
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.bold,
+                          color: _candleLit ? Colors.orange : Colors.white70,
+                        ),
+                      ),
                     ),
-                  ),
-                  style: TextButton.styleFrom(
-                    backgroundColor: intent.hasUserSupported 
-                      ? Colors.green.withValues(alpha: 0.1)
-                      : Colors.white.withValues(alpha: 0.05),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                    const SizedBox(width: 8),
+                    TextButton.icon(
+                      onPressed: widget.intent.hasUserSupported ? null : () => _showPrayerDialog(context, config),
+                      icon: Icon(
+                        widget.intent.hasUserSupported 
+                          ? PhosphorIcons.checkCircle(PhosphorIconsStyle.fill)
+                          : PhosphorIcons.sparkle(),
+                        size: 20,
+                        color: widget.intent.hasUserSupported ? Colors.green : const Color(0xFFE8E0D5),
+                      ),
+                      label: Text(
+                        widget.intent.hasUserSupported ? 'Hai pregato' : config.copy.communitySupportAction,
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.bold,
+                          color: widget.intent.hasUserSupported ? Colors.green : const Color(0xFFE8E0D5),
+                        ),
+                      ),
+                      style: TextButton.styleFrom(
+                        backgroundColor: widget.intent.hasUserSupported 
+                          ? Colors.green.withValues(alpha: 0.1)
+                          : Colors.white.withValues(alpha: 0.05),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),

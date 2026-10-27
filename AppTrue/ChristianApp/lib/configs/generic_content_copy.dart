@@ -34,6 +34,14 @@ class GenericContentCopy implements AppCopy {
   @override String get communityPrayerTitle => 'Collective Focus';
   @override String get communityPrayerAction => 'I am done';
   @override String get communityInviteWhatsApp => 'Invite on WhatsApp';
+  @override String get communityLightCandleAction => 'Light a candle';
+  @override String get communityCandleLitFeedback => 'Candle lit';
+
+  @override String get referralUnlockTitle => 'Unlock Content';
+  @override String get referralUnlockSubtitle => 'Invite 3 friends or upgrade to Premium.';
+  @override String get referralInviteAction => 'Invite and Unlock';
+  @override String get referralPremiumAction => 'Upgrade Now';
+  @override String get referralProgressTemplate => '{current}/{target} friends invited';
 
   @override String get playerContinueWatching => 'CONTINUE WATCHING';
   @override String get playerCompletedTitle => 'Completed';

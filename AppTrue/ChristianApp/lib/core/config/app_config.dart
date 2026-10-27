@@ -39,6 +39,15 @@ abstract class AppCopy {
   String get communityPrayerTitle;
   String get communityPrayerAction;
   String get communityInviteWhatsApp; // "Invita su WhatsApp"
+  String get communityLightCandleAction; // "Accendi una candela"
+  String get communityCandleLitFeedback; // "Candela accesa"
+
+  // Referral / Unlock
+  String get referralUnlockTitle; // "Sblocca contenuto speciale"
+  String get referralUnlockSubtitle; // "Invita 3 amici o passa a Premium"
+  String get referralInviteAction; // "Invita amici e sblocca"
+  String get referralPremiumAction; // "Passa a Premium"
+  String get referralProgressTemplate; // "{current}/{target} amici invitati"
 
   // Player
   String get playerContinueWatching;

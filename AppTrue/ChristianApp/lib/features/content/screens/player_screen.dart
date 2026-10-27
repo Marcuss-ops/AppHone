@@ -8,6 +8,7 @@ import '../../payments/providers/subscription_provider.dart';
 import '../providers/favorites_provider.dart';
 import '../../../shared/widgets/state_widgets.dart';
 import '../../../shared/widgets/app_ui_components.dart';
+import '../../../shared/widgets/referral_wall.dart';
 import '../../../core/config/active_config.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/config/app_assets.dart';
@@ -135,6 +136,7 @@ class PlayerScreen extends ConsumerWidget {
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
+                      // Album Art
                       Center(
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.8,
@@ -157,6 +159,7 @@ class PlayerScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 48),
 
+                      // Title & Artist
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -191,10 +194,19 @@ class PlayerScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 32),
 
+                      // Player Controls or Referral Wall
                       premiumAsync.when(
                         data: (hasPremium) {
                           if (item.locked && !hasPremium) {
-                            return _paywallBanner(context, config);
+                            return ReferralWall(
+                              config: config,
+                              onInvite: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Invito inviato! Sbloccherai al 3° amico.')),
+                                );
+                              },
+                              onPremium: () => context.push('/paywall'),
+                            );
                           }
                           return _playerControls(ref, item, playerState, config);
                         },
@@ -204,6 +216,7 @@ class PlayerScreen extends ConsumerWidget {
 
                       const SizedBox(height: 40),
 
+                      // Details Section
                       if (item.description != null)
                         Container(
                           width: double.infinity,
@@ -228,6 +241,7 @@ class PlayerScreen extends ConsumerWidget {
                           ),
                         ),
                       const SizedBox(height: 40),
+                      // Simulate Completion Button for demo
                       TextButton(
                         onPressed: () => _showCompletionDialog(context, config),
                         child: const Text('SIMULA FINE SESSIONE', style: TextStyle(color: Colors.white24, fontSize: 10)),
@@ -301,34 +315,6 @@ class PlayerScreen extends ConsumerWidget {
           inactiveColor: Colors.white.withValues(alpha: 0.1),
         ),
       ],
-    );
-  }
-
-  Widget _paywallBanner(BuildContext context, AppConfig config) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: config.primaryAccent.withValues(alpha: 0.2)),
-      ),
-      child: Column(
-        children: [
-          Icon(Icons.lock_outline, color: config.primaryAccent, size: 32),
-          const SizedBox(height: 12),
-          const Text('Sessione Premium', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-          const SizedBox(height: 8),
-          const Text('Sblocca tutti i contenuti per ascoltare questa meditazione.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white54)),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () => context.push('/paywall'),
-            style: ElevatedButton.styleFrom(backgroundColor: config.primaryAccent),
-            child: const Text('Vedi i piani'),
-          ),
-        ],
-      ),
     );
   }
 
